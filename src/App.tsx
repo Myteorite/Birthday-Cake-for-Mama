@@ -77,13 +77,15 @@ const BACKGROUND_FADE_START = Math.max(
 );
 
 const TYPED_LINES = [
-  "> tina",
+  "> Haloo Mamaaaa",
   "...",
-  "> today is your birthday",
+  "> Ciee yang hari ini ulang tahun",
   "...",
-  "> so i made you this computer program",
+    "> Selamat ulang tahun mamaku",
   "...",
-  "٩(◕‿◕)۶ ٩(◕‿◕)۶ ٩(◕‿◕)۶"
+  "> Nih aku bikinin program (sebenernya template) xixixi",
+  "...",
+  ":3"
 ];
 const TYPED_CHAR_DELAY = 100;
 const POST_TYPING_SCENE_DELAY = 1000;
