@@ -488,26 +488,31 @@ export default function App() {
     return () => window.clearInterval(handle);
   }, []);
 
+  // --- LOGIKA BARU UNTUK INTERAKSI (TAP & SPASI) ---
+  const handleUserInteraction = useCallback(() => {
+    if (!hasStarted) {
+      playBackgroundMusic();
+      setHasStarted(true);
+      return;
+    }
+    if (hasAnimationCompleted && isCandleLit) {
+      setIsCandleLit(false);
+      setFireworksActive(true);
+    }
+  }, [hasStarted, hasAnimationCompleted, isCandleLit, playBackgroundMusic]);
+
+  // Handle tombol Spasi (Keyboard)
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.code !== "Space" && event.key !== " ") {
-        return;
-      }
-      event.preventDefault();
-      if (!hasStarted) {
-        playBackgroundMusic();
-        setHasStarted(true);
-        return;
-      }
-      if (hasAnimationCompleted && isCandleLit) {
-        setIsCandleLit(false);
-        setFireworksActive(true);
+      if (event.code === "Space" || event.key === " ") {
+        event.preventDefault();
+        handleUserInteraction();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [hasStarted, hasAnimationCompleted, isCandleLit, playBackgroundMusic]);
+  }, [handleUserInteraction]);
 
   const handleCardToggle = useCallback((id: string) => {
     setActiveCardId((current) => (current === id ? null : id));
@@ -516,7 +521,8 @@ export default function App() {
   const isScenePlaying = hasStarted && sceneStarted;
 
   return (
-    <div className="App">
+    // Tambahkan onClick di sini agar layar bisa diketuk
+    <div className="App" onClick={handleUserInteraction}>
       <div
         className="background-overlay"
         style={{ opacity: backgroundOpacity }}
@@ -541,7 +547,7 @@ export default function App() {
         </div>
       </div>
       {hasAnimationCompleted && isCandleLit && (
-        <div className="hint-overlay">press space to blow out the candle</div>
+        <div className="hint-overlay">Tap screen or press space to blow out the candle</div>
       )}
       <Canvas
         gl={{ alpha: true }}
